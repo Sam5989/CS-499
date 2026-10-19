@@ -1,0 +1,42 @@
+<div class="trip-controls">
+    <button (click)="addTrip()" class="btn-info">Add Trip</button>
+
+    <form (ngSubmit)="search()" class="search-form">
+        <label for="trip-search">Search trips</label>
+        <input
+            id="trip-search"
+            name="search"
+            [(ngModel)]="searchTerm"
+            placeholder="Search by name or resort"
+        />
+        <button type="submit" class="btn-info">Search</button>
+    </form>
+</div>
+
+<p>{{ message }}</p>
+
+<div *ngIf="loading">Loading trips...</div>
+
+<div class="row">
+    <div *ngFor="let trip of trips" class="col-3">
+        <app-trip-card [trip]="trip" class="card-deck mt-2"></app-trip-card>
+    </div>
+</div>
+
+<div class="pagination-controls" *ngIf="totalPages > 1">
+    <button
+        type="button"
+        (click)="previousPage()"
+        [disabled]="currentPage === 1">
+        Previous
+    </button>
+
+    <span>Page {{ currentPage }} of {{ totalPages }}</span>
+
+    <button
+        type="button"
+        (click)="nextPage()"
+        [disabled]="currentPage === totalPages">
+        Next
+    </button>
+</div>

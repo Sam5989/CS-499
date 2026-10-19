@@ -1,0 +1,65 @@
+CS-499 Travlr Getaways
+Previous Enhancement Summary
+
+This file documents the enhancements completed before Milestone Four. The
+changes remain included in the current Travlr artifact, but they are listed
+separately from the new Database enhancement.
+
+MILESTONE TWO - SOFTWARE DESIGN AND ENGINEERING
+
+1. app_api/controllers/authentication.js
+   - Added required-field checks for registration and login.
+   - Added a minimum password-length check during registration.
+   - Added duplicate-account handling.
+   - Added controlled authentication error responses.
+   - Removed unnecessary authentication/debug output.
+   - Improved naming and organization in the authentication flow.
+
+2. app_api/routes/index.js
+   - Added safer Bearer-token parsing and JWT verification.
+   - Invalid or expired tokens return controlled 401 responses instead of
+     exposing internal errors.
+
+3. Angular authentication code
+   - Improved JWT decoding/error handling so malformed tokens do not crash the
+     client authentication flow.
+   - Tokens are removed when they cannot be safely decoded.
+
+4. Trip validation and organization
+   - Added required-field validation for trip creation.
+   - Added server-side validation for trip data.
+   - Added clearer handling for missing trips and invalid database data.
+   - Cleaned up controller structure and reusable authentication behavior.
+
+MILESTONE THREE - ALGORITHMS AND DATA STRUCTURES
+
+1. app_api/controllers/trips.js
+   - Added server-side pagination using page and limit parameters.
+   - Added a maximum page size of 50.
+   - Added database-side search by trip name or resort.
+   - Added sorting by trip name.
+   - Added countDocuments() to calculate matching records.
+   - Added Promise.all() to retrieve the requested page and count in parallel.
+   - Added pagination metadata to the API response.
+
+2. app_admin/src/app/services/trip-data.ts
+   - Added page, limit, and search parameters to getTrips().
+   - Added the TripPage interface for the paginated API response.
+
+3. app_admin/src/app/trip-listing/trip-listing.ts
+   - Added page state, page-size state, search state, and matching-trip count.
+   - Added Previous and Next page behavior.
+   - Reset pagination to page one when a new search is performed.
+   - Added loading and failed-request handling.
+
+4. app_admin/src/app/trip-listing/trip-listing.html
+   - Added search controls and pagination controls.
+   - Added current-page and total-page information.
+
+5. app_admin/src/app/trip-listing/trip-listing.css
+   - Added styling for the search and pagination controls.
+
+MILESTONE FOUR
+
+The new Database changes are documented separately in
+CS499_Milestone4_Change_Notes.txt.

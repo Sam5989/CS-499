@@ -1,0 +1,62 @@
+CS-499 Milestone Four - Databases
+Travlr Getaways Enhancement Notes
+
+This version starts from the Milestone Three enhanced Travlr artifact. The
+Software Design and Engineering changes from Milestone Two and the Algorithms
+and Data Structures changes from Milestone Three remain in the project.
+Milestone Four adds the Database enhancement described below.
+
+DATABASE CHANGES
+
+1. app_api/Models/travlr.js
+   - Strengthened the Trip schema with database-level constraints.
+   - Made the trip code a unique indexed field so duplicate trip codes are
+     rejected by MongoDB/Mongoose.
+   - Added indexes to name and resort because they are frequently used by the
+     trip listing/search functionality.
+   - Added trim behavior to string fields so stored values are more consistent.
+   - Kept the existing field types and application structure so the enhancement
+     remains compatible with the Travlr application.
+
+2. app_api/controllers/trips.js
+   - Added a shared server-side validation and normalization step before trip
+     data is sent to the database.
+   - Validates all required trip fields before insert or update operations.
+   - Validates the trip start date before database operations are attempted.
+   - Normalizes string values with trim() before they are stored.
+   - Added safe regular-expression escaping for user search input so search text
+     cannot introduce unintended regular-expression patterns.
+   - Added database query limits with maxTimeMS() to prevent a database request
+     from running indefinitely.
+   - Added explicit field selection on read/update queries so the API only
+     requests the fields used by the application.
+   - Uses lean() for read operations where Mongoose document methods are not
+     needed, reducing unnecessary object overhead.
+   - Added consistent database-specific error responses for validation errors,
+     duplicate-key errors, and unexpected database failures.
+   - Added duplicate-code handling for both create and update operations.
+   - Preserved the Milestone Three pagination, filtering, sorting, and count
+     logic instead of replacing those earlier improvements.
+
+DATABASE / PERFORMANCE FOCUS
+
+The database enhancement focuses on making the MongoDB layer more reliable,
+consistent, and efficient. Validation now happens before unnecessary database
+writes, while the schema also provides database-level constraints. Indexes
+support common lookup/sort fields, and read queries use field selection and
+lean results. The existing Milestone Three pagination and search work continues
+to limit how much data is retrieved for each request.
+
+ERROR HANDLING
+
+Database errors are translated into controlled API responses instead of
+exposing raw database error objects to the client. Validation problems return
+400 responses, duplicate trip codes return 409 responses, missing trips return
+404 responses, and unexpected database failures return controlled 500 responses.
+
+PREVIOUS ENHANCEMENTS
+
+The previous Milestone Two and Milestone Three changes are still included in
+this artifact. A separate file named CS499_Previous_Enhancement_Notes.txt
+summarizes those earlier enhancements without mixing them into the new
+Milestone Four change list.

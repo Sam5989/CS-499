@@ -1,0 +1,56 @@
+CS-499 Milestone Three - Algorithms and Data Structures
+Travlr Getaways Enhancement Notes
+
+This version starts from the Milestone Two enhanced Travlr artifact. The Milestone
+Two Software Design and Engineering changes remain in the project. Milestone Three
+adds the Algorithms and Data Structures enhancement.
+
+ALGORITHMS / DATA STRUCTURES CHANGES
+
+1. app_api/controllers/trips.js
+   - Added server-side pagination using page and limit query parameters.
+   - Calculates the number of records to skip with (page - 1) * limit.
+   - Caps the requested page size at 50 to prevent unnecessarily large requests.
+   - Added server-side search filtering by trip name or resort.
+   - Uses MongoDB filtering, sorting, skip, and limit instead of retrieving the
+     complete collection before processing it.
+   - Uses countDocuments() to calculate the total number of matching records.
+   - Uses Promise.all() to retrieve the requested page and count in parallel.
+   - Returns pagination metadata including page, limit, total, and totalPages.
+
+2. app_admin/src/app/services/trip-data.ts
+   - Updated getTrips() to accept page, limit, and search parameters.
+   - Uses HttpParams to send the requested pagination and filtering values to the API.
+   - Added the TripPage interface to represent the paginated API response.
+
+3. app_admin/src/app/trip-listing/trip-listing.ts
+   - Added current page and page-size state.
+   - Added previous/next page controls.
+   - Added search state and a search method.
+   - Resets to page one when a new search is performed.
+   - Displays the number of matching trips.
+   - Handles loading and failed-request states.
+
+4. app_admin/src/app/trip-listing/trip-listing.html
+   - Added a search form for filtering trips by name or resort.
+   - Added Previous and Next pagination controls.
+   - Displays the current page and total page count.
+
+5. app_admin/src/app/trip-listing/trip-listing.css
+   - Added simple layout styling for the search and pagination controls.
+
+ALGORITHM / DATA STRUCTURE FOCUS
+
+The main improvement is moving pagination and filtering to the API/database
+query instead of retrieving every trip and processing the full collection in
+the Angular client. The API calculates the starting position for a page,
+retrieves only the requested number of records, and returns metadata needed by
+the client to navigate the result set.
+
+This demonstrates practical use of query-based data processing, pagination,
+filtering, sorting, and collection-size calculation in a full-stack application.
+
+NOT COMPLETED IN THIS MILESTONE
+
+The Database category remains for a later milestone. Database-specific
+performance and validation changes are not being presented as completed here.
